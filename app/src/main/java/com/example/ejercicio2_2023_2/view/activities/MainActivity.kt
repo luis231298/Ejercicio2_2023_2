@@ -2,13 +2,14 @@ package com.example.ejercicio2_2023_2.view.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.SyncStateContract.Constants
-import android.util.Log
+import android.view.View
+
 import android.widget.Toast
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ejercicio2_2023_2.databinding.ActivityMainBinding
 import com.example.ejercicio2_2023_2.model.personajeSw
 import com.example.ejercicio2_2023_2.model.swApi
+import com.example.ejercicio2_2023_2.view.adapters.Adapter
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,16 +31,27 @@ class MainActivity : AppCompatActivity() {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
 
-            val call = retrofit.create(swApi::class.java).getSwDetail("1")
+            val call = retrofit.create(swApi::class.java).getSwPersonajes("api/people/?format=json")
             call.enqueue(object: Callback<personajeSw>{
-                override fun onResponse(call: Call<personajeSw>, response: Response<personajeSw>) {
-
-                    Toast.makeText(this@MainActivity, "Nombre: ${response.body()?.name}", Toast.LENGTH_LONG).show()
-                    binding.nombreSw.setText(response.toString())
+                override fun onResponse(
+                    call: Call<personajeSw>,
+                    response: Response<personajeSw>
+                ) {
+                    /*Toast.makeText(this@MainActivity, "Nombre: ${response.body()?.name}", Toast.LENGTH_LONG).show()
+                            binding.nombreSw.setText(response.toString())*/
+                    //binding.nombreSw.visibility = View.GONE
+                    //Toast.makeText(this@MainActivity,"Conectado",Toast.LENGTH_SHORT).show()
+                    binding.rvMenu.layoutManager = LinearLayoutManager(this@MainActivity)
+                    binding.rvMenu.adapter = Adapter(this@MainActivity,response.body()!!.results)
+                    binding.pbCarga.visibility = View.GONE
+                    //binding.nombreSw.visibility = View.VISIBLE
+                    //binding.nombreSw.setText(response.body()?.results?.get(0)?.name)
                 }
 
                 override fun onFailure(call: Call<personajeSw>, t: Throwable) {
-                    TODO("Not yet implemented")
+                    binding.pbCarga.visibility = View.GONE
+                    Toast.makeText(this@MainActivity,"Error de conexión: ${t.message}",Toast.LENGTH_SHORT).show()
+                    binding.nombreSw.setText(t.message)
                 }
 
             })
