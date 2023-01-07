@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.ejercicio2_2023_2.databinding.SwPersonajeBinding
 import com.example.ejercicio2_2023_2.model.Results
+import com.example.ejercicio2_2023_2.view.activities.MainActivity
 
 class Adapter(private val contecto: Context, private val personajeSw: ArrayList<Results>): RecyclerView.Adapter<Adapter.ViewHolder>() {
 
@@ -26,6 +27,10 @@ class Adapter(private val contecto: Context, private val personajeSw: ArrayList<
         holder.altura.text = personajeSw[position].height
         holder.anio.text = personajeSw[position].birth_year
         holder.genero.text = personajeSw[position].gender
+
+        holder.itemView.setOnClickListener{
+            if (contecto is MainActivity) contecto.selectedPersonaje(personajeSw[position])
+        }
     }
 
     override fun getItemCount(): Int = personajeSw.size

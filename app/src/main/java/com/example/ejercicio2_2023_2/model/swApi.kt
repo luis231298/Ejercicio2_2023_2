@@ -11,6 +11,11 @@ interface swApi {
         @Url url: String?
     ): Call <personajeSw>
 
+    @GET()
+    fun getSwPlaneta(
+        @Url url: String?
+    ): Call <planetaSw>
+
     /*@GET("api/people/{id}/?format=json")
     fun getSwDetail(
         @Path("id") id: String?

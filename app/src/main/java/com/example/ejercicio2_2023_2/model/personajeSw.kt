@@ -3,8 +3,9 @@ package com.example.ejercicio2_2023_2.model
 import com.google.gson.annotations.SerializedName
 
 data class personajeSw(
-    @SerializedName("results"  ) var results  : ArrayList<Results> = arrayListOf(),
-    @SerializedName("count")
+    @SerializedName("results"  )
+    var results  : ArrayList<Results> = arrayListOf(),
+    /*@SerializedName("count")
     var count: String? = null,
     @SerializedName("name")
     var name: String? = null,
@@ -13,7 +14,7 @@ data class personajeSw(
     @SerializedName("birth_year")
     var birth_year: String? = null,
     @SerializedName("gender")
-    var gender: String? = null
+    var gender: String? = null*/
 )
 
 class Results {
@@ -25,6 +26,10 @@ class Results {
     var birth_year: String? = null
     @SerializedName("gender")
     var gender: String? = null
+    @SerializedName("homeworld")
+    var homeworld: String? = null
+    @SerializedName("films"      )
+    var films     : ArrayList<String> = arrayListOf()
     /*@SerializedName("name")
     var name      : String?           = null,
     @SerializedName("height")

@@ -1,5 +1,6 @@
 package com.example.ejercicio2_2023_2.view.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.ejercicio2_2023_2.databinding.ActivityMainBinding
+import com.example.ejercicio2_2023_2.model.Results
 import com.example.ejercicio2_2023_2.model.personajeSw
 import com.example.ejercicio2_2023_2.model.swApi
 import com.example.ejercicio2_2023_2.view.adapters.Adapter
@@ -51,11 +53,26 @@ class MainActivity : AppCompatActivity() {
                 override fun onFailure(call: Call<personajeSw>, t: Throwable) {
                     binding.pbCarga.visibility = View.GONE
                     Toast.makeText(this@MainActivity,"Error de conexión: ${t.message}",Toast.LENGTH_SHORT).show()
-                    binding.nombreSw.setText(t.message)
+                    //binding.nombreSw.setText(t.message)
                 }
 
             })
         }
 
+    }
+
+    fun selectedPersonaje(personajeSw: Results){
+        var parametros = Bundle()
+
+        parametros.apply {
+            putString("planeta",personajeSw.homeworld)
+            putStringArrayList("films",personajeSw.films)
+        }
+
+        val intent = Intent(this@MainActivity,menuSw::class.java)
+
+        intent.putExtras(parametros)
+
+        startActivity(intent)
     }
 }
