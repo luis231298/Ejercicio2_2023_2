@@ -21,6 +21,8 @@ class menuSw : AppCompatActivity() {
 
         val clickPlaneta = binding.btnPlanetas
 
+        val clickPelis = binding.btnPeliculas
+
         clickPlaneta.setOnClickListener{
             var parametros = Bundle()
             val url = bundles?.getString("planeta","")
@@ -36,6 +38,22 @@ class menuSw : AppCompatActivity() {
             startActivity(intent)
 
             //Toast.makeText(this@menuSw, "boton", Toast.LENGTH_SHORT).show()
+        }
+
+        clickPelis.setOnClickListener {
+            var parametrosPelis = Bundle()
+            val pelis = bundles?.getStringArrayList("films")
+
+            parametrosPelis.apply {
+                putStringArrayList("pelis",pelis)
+            }
+
+            val intent = Intent(this@menuSw,infoPeliculasSw::class.java)
+
+            intent.putExtras(parametrosPelis)
+
+            startActivity(intent)
+
         }
 
     }
